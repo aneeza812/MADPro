@@ -3,7 +3,6 @@ package com.example.cameracodeexample.Fragments;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,10 +12,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +20,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 
 import com.example.cameracodeexample.MainActivity;
 import com.example.cameracodeexample.R;
@@ -127,27 +126,19 @@ public class CameraFragment extends Fragment {
         });
 
         ContentValues cv = new ContentValues();
-        cv.put(databaseHandler.KEY_IMG_URL, getEncodedString(theImage));
-        cv.put(databaseHandler.KEY_NAME, name);
-        cv.put(databaseHandler.KEY_DATE, currentDateTime);
-        cv.put(databaseHandler.KEY_LOCATION, locationData);
+        cv.put(DataBaseHandler.KEY_IMG_URL, getEncodedString(theImage));
+        cv.put(DataBaseHandler.KEY_NAME, name);
+        cv.put(DataBaseHandler.KEY_DATE, currentDateTime);
+        cv.put(DataBaseHandler.KEY_LOCATION, locationData);
 
 
-        long id = db.insert(databaseHandler.TABLE_NAME, null, cv);
+        long id = db.insert(DataBaseHandler.TABLE_NAME, null, cv);
         if (id < 0) {
             Toast.makeText(getContext(), "Something went wrong. Please try again later...", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(getContext(), "Add successful", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Add successful...", Toast.LENGTH_LONG).show();
         }
     }
-
-    /**
-     * Reuqesting for premissons
-     *
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
-     */
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -162,14 +153,6 @@ public class CameraFragment extends Fragment {
             }
         }
     }
-
-    /**
-     * Start an activity for result
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

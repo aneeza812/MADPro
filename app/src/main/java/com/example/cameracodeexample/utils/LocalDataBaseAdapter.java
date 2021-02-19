@@ -5,9 +5,6 @@ import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +12,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.cameracodeexample.Fragments.LocalFragment;
 import com.example.cameracodeexample.MainActivity;
 import com.example.cameracodeexample.R;
-import com.example.cameracodeexample.utils.LocalResponse;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -28,6 +27,7 @@ public class LocalDataBaseAdapter extends RecyclerView.Adapter<LocalDataBaseAdap
     ArrayList<LocalResponse> singleRowArrayList;
     SQLiteDatabase db;
     DataBaseHandler myDatabase;
+
     public LocalDataBaseAdapter(Context context, ArrayList<LocalResponse> singleRowArrayList, SQLiteDatabase db, DataBaseHandler myDatabase) {
         this.context = context;
         this.singleRowArrayList = singleRowArrayList;
@@ -46,12 +46,17 @@ public class LocalDataBaseAdapter extends RecyclerView.Adapter<LocalDataBaseAdap
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
+
+        myViewHolder.txtName.setText(singleRowArrayList.get(i).getName());
+        myViewHolder.txtLocation.setText(singleRowArrayList.get(i).getLocation());
+        myViewHolder.txtDateTime.setText(singleRowArrayList.get(i).getDateTime());
+
         myViewHolder.newsImage.setImageBitmap(getBitmapFromEncodedString(singleRowArrayList.get(i).image));
-      //  myViewHolder.id.setText(singleRowArrayList.get(i).uid);
+        //  myViewHolder.id.setText(singleRowArrayList.get(i).uid);
         myViewHolder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deletedata(i,singleRowArrayList);
+                deletedata(i, singleRowArrayList);
             }
         });
     }
@@ -61,21 +66,23 @@ public class LocalDataBaseAdapter extends RecyclerView.Adapter<LocalDataBaseAdap
         return singleRowArrayList.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView newsImage,delete;
-        TextView id;
+    static class MyViewHolder extends RecyclerView.ViewHolder {
+        ImageView newsImage, delete;
+        TextView txtName, txtLocation, txtDateTime;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             newsImage = (ImageView) itemView.findViewById(R.id.newsImage);
             delete = (ImageView) itemView.findViewById(R.id.delete);
-           // id = (TextView) itemView.findViewById(R.id.id);
+            txtName = (TextView) itemView.findViewById(R.id.txtName);
+            txtDateTime = (TextView) itemView.findViewById(R.id.txtDateTime);
+            txtLocation = (TextView) itemView.findViewById(R.id.txtLocation);
+            // id = (TextView) itemView.findViewById(R.id.id);
         }
     }
 
 
-
-    public void deletedata(final int position, final ArrayList<LocalResponse> singleRowArrayList){
+    public void deletedata(final int position, final ArrayList<LocalResponse> singleRowArrayList) {
         new AlertDialog.Builder(context)
                 .setIcon(R.drawable.defaultimage)
                 .setTitle("Delete result")
@@ -99,7 +106,7 @@ public class LocalDataBaseAdapter extends RecyclerView.Adapter<LocalDataBaseAdap
     }
 
 
-    private Bitmap getBitmapFromEncodedString(String encodedString){
+    private Bitmap getBitmapFromEncodedString(String encodedString) {
 
         byte[] arr = Base64.decode(encodedString, Base64.URL_SAFE);
 

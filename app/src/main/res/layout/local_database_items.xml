@@ -23,11 +23,21 @@
             android:layout_height="match_parent"
             android:background="@color/color_white">
 
+            <ImageView
+
+                android:id="@+id/newsImage"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop" />
+
             <TextView
                 android:id="@+id/txtName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/testTemp"
+                android:textAllCaps="true"
+                android:background="@color/gray"
+                android:textColor="@color/black"
                 android:textSize="@dimen/_20sdp" />
 
             <LinearLayout
@@ -56,6 +66,7 @@
                         android:text="@string/testTemp"
                         android:textSize="@dimen/_14sdp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -76,12 +87,6 @@
                         android:textSize="@dimen/_14sdp" />
                 </LinearLayout>
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/newsImage"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:scaleType="centerCrop" />
 
             <ImageView
                 android:id="@+id/delete"
